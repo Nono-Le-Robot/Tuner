@@ -1,0 +1,288 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>Guitar Tuner</title>
+	<link href='http://fonts.googleapis.com/css?family=Alike' rel='stylesheet' type='text/css'>
+	<style>
+		* {
+			transition: 0.5s;
+		}
+
+		body {
+
+			background-image: linear-gradient(329deg, rgba(20, 2, 31, 0.9), rgb(3, 13, 41));
+			font: 14pt 'Alike', sans-serif;
+			overflow: hidden;
+			height: 100vh;
+		}
+
+		#note {
+			font-size: 164px;
+		}
+
+		.droptarget {
+			background-color: #348781
+		}
+
+		div.confident {
+			color: black;
+		}
+
+		div.vague {
+			color: lightgrey;
+		}
+
+		#note {
+			display: inline-block;
+			height: 180px;
+			text-align: left;
+		}
+
+		#detector {
+
+			width: 90vw;
+			margin-left: auto;
+			margin-right: auto;
+			height: 50vh;
+
+			border-radius: 8px;
+			text-align: center;
+			padding-top: 10px;
+		}
+
+		#output {
+			width: 300px;
+			height: 42px;
+		}
+
+		#flat {
+			display: none;
+		}
+
+		#sharp {
+			display: none;
+		}
+
+		.flat #flat {
+			display: inline;
+		}
+
+		.sharp #sharp {
+			display: inline;
+		}
+
+		#under-tuner {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 2rem;
+		}
+
+		#start-btn {
+			padding: 1rem;
+			background-image: linear-gradient(45deg, #444444, #313030);
+			color: white;
+			font-size: 1rem;
+
+			border-radius: 50%;
+			box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.596);
+			border: 1px black solid;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		#start-btn:hover {
+			cursor: pointer;
+		}
+
+		#bar {
+			box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.603);
+			border-radius: 2rem;
+			width: 80vw;
+			margin-left: auto;
+			margin-right: auto;
+			height: 50px;
+			border: 1px solid rgb(0, 0, 0);
+			background-image: linear-gradient(0deg, #e78c04, #be5906);
+		}
+
+		#tolerance {
+
+			border-radius: 2rem;
+
+			border: 1px solid rgb(0, 0, 0);
+			position: relative;
+			left: 40vw;
+			top: 0px;
+			transform: translateX(-50%);
+
+			width: 300px;
+			height: 95%;
+			background-image: linear-gradient(90deg, #0fa14c, #57ca14);
+		}
+
+		#cursor {
+			box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.459);
+
+			border: solid rgb(7, 1, 1) 1px;
+			border-radius: 1rem;
+			position: relative;
+			left: 39.7vw;
+			top: -45px;
+			width: 8px;
+			height: 80%;
+			background-color: #000000;
+		}
+
+		#tuning_instruction {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			margin-top: 1rem;
+			padding: 0;
+		}
+
+		.perfect {
+			color: white;
+			font-weight: 800;
+			margin: 0;
+			font-size: 1.5rem;
+		}
+
+		#btns {
+			margin-top: 2rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+		}
+
+		#pitch {
+			color: white;
+		}
+
+		.pitch {
+			color: white;
+		}
+
+		#arrow-perfect {
+
+			width: 30px;
+
+		}
+
+		#input-device-select {
+			box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.596);
+			border: none;
+			border-radius: 1rem;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			padding: 1rem;
+			background-image: linear-gradient(45deg, #444444, #313030);
+			color: white;
+			font-size: 1rem;
+			width: 300px;
+
+		}
+
+
+
+		.secondary-input {
+			text-align: center;
+			padding: 1rem;
+			background-color: #313030;
+			color: white;
+			font-size: 1rem;
+
+		}
+
+		#select-input {
+			margin-top: 2rem;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 1rem;
+		}
+
+		#input-txt {
+			color: white;
+			font-size:
+				1.3rem;
+		}
+
+		#mic-img {
+			width: 50px;
+		}
+	</style>
+</head>
+
+<body>
+	<script src="js/pitchdetect.js"></script>
+
+	<div id="detector" class="vague">
+		<div class="pitch"><span id="pitch" style="color: white;">--</span>Hz</div>
+		<div class="note"><span id="note">--</span></div>
+		<canvas id="output" width=300 height=42></canvas>
+		<div id="detune">
+		</div>
+
+		<div id="tuning_instruction">
+		</div>
+		<div id="bar">
+			<div id="tolerance">
+			</div>
+			<div id="cursor">
+			</div>
+		</div>
+		<!-- Définition de la liste déroulante -->
+		<div id="select-input">
+			<p id="input-txt"> </p>
+			<select id="input-device-select">
+			</select>
+			<div id="btns">
+
+				<button id="start-btn" onclick="startPitchDetect();"><img id='mic-img' src="./mic.png" alt=""
+						srcset=""></button>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="under-tuner">
+
+
+	</div>
+
+	<!-- Option par défaut -->
+
+
+	<!-- Chargement de la liste des périphériques d'entrée -->
+	<script>
+		// Récupération de la liste des périphériques d'entrée
+		navigator.mediaDevices.enumerateDevices()
+			.then(function (deviceInfos) {
+				console.log(deviceInfos)
+				// Récupération de la liste déroulante
+				var select = document.getElementById("input-device-select");
+
+				// Ajout des options à la liste déroulante
+				for (var i = 0; i !== deviceInfos.length; ++i) {
+					var deviceInfo = deviceInfos[i];
+					if (deviceInfo.kind === 'audioinput') {
+						var option = document.createElement('option');
+						option.classList.add('secondary-input')
+						option.value = deviceInfo.deviceId;
+						option.text = deviceInfo.label || 'Périphérique d\'entrée audio ' + (i + 1);
+						select.appendChild(option);
+					}
+				}
+			});
+	</script>
+
+</body>
+
+</html>
