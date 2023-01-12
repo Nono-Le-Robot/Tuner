@@ -65,12 +65,13 @@ window.onload = function () {
 };
 
 function startPitchDetect() {
+  document.getElementById("loader").style.display = "flex";
   // Récupération de la liste déroulante
   var select = document.getElementById("input-device-select");
 
   // Récupération de l'ID du périphérique sélectionné
   var deviceId = select.value;
-  document.getElementById("start-btn").style.display = "none";
+
   select.style.display = "none";
   // grab an audio context
   audioContext = new AudioContext();
@@ -208,13 +209,15 @@ var guitarStrings = [82.41, 110, 146.83, 196, 246.94, 329.63];
 
 // utilisation de la fonction
 function updatePitch(time) {
+  document.getElementById("loader").style.display = "none";
   document.getElementById("bar").style.display = "block";
+
   var cycles = new Array();
   analyser.getFloatTimeDomainData(buf);
   var ac = autoCorrelate(buf, audioContext.sampleRate);
   if (ac == -1) {
     detectorElem.className = "vague";
-    // pitchElem.innerText = "--";
+
     noteElem.innerText = "-";
   } else {
     detectorElem.className = "confident";
@@ -234,8 +237,8 @@ function updatePitch(time) {
         const cursor = document.getElementById("cursor");
         const bar = document.getElementById("bar");
         const tolerance = document.getElementById("tolerance");
-        const maxDetune = 50;
-        const minDetune = -50;
+        const maxDetune = 100;
+        const minDetune = -100;
         const range = maxDetune - minDetune;
         const position = (detune - minDetune) / range;
         cursor.style.left = position * bar.offsetWidth + "px";

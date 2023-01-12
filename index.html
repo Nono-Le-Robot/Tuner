@@ -1,25 +1,61 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
-	<link href='http://fonts.googleapis.com/css?family=Alike' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="./style/style.css">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fine Tuner</title>
+	<link rel="stylesheet" href="style/reset.css">
+	<link rel="stylesheet" href="style/style.css">
 	<script src="js/initialize-inputs.js"></script>
 	<script src="js/pitchdetect.js"></script>
-	<title>FineTuner</title>
+	<script src="js/start-tuner.js"></script>
 </head>
 
+<style>
+
+</style>
+
+
 <body>
-
-
-	<div id="main-flex">
-
-		<div>
-			<h1>Fine Tuner</h1>
+	<div id="loader" class="hidden">
+		<div class="lds-default ">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
 		</div>
+
+	</div>
+
+	<div id="scene">
+		<div>
+			<img id="guitar" src="./assets/guitar.png" alt="" srcset="">
+		</div>
+
+		<h1 id="instruction">Fine Tuner </h1>
+
+
+
+		<div id="select-input">
+			<p id="instruction3">Devices : </p>
+			<p id="input-txt"> </p>
+			<select id="input-device-select">
+			</select>
+
+			<img onclick="startTuner()" id='mic-img' src="./img/mic.png">
+
+		</div>
+		<!-- startPitchDetect() -->
 
 		<div id="detector" class="vague">
 			<div class="note"><span id="note"></span></div>
@@ -33,18 +69,20 @@
 			<div id="cursor">
 			</div>
 		</div>
-	</div>
 
-
-	<div id="select-input">
-		<p id="input-txt"> </p>
-		<select id="input-device-select">
-		</select>
-		<div id="btns">
-			<button id="start-btn" onclick="startPitchDetect();"><img id='mic-img' src="./mic.png"></button>
+		<div>
+			<img id="bureau" src="./assets/bureau.png" alt="" srcset="">
 		</div>
-	</div>
 
+
+
+	</div>
+	<div id="bottom">
+
+
+	</div>
 </body>
+
+
 
 </html>
