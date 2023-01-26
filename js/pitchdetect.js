@@ -67,17 +67,16 @@ window.onload = function () {
 function startPitchDetect() {
   document.getElementById("loader").style.display = "flex";
   // Récupération de la liste déroulante
-  var select = document.getElementById("input-device-select");
+  // var select = document.getElementById("input-device-select");
 
-  // Récupération de l'ID du périphérique sélectionné
-  var deviceId = select.value;
+  // // Récupération de l'ID du périphérique sélectionné
 
-  select.style.display = "none";
+  // select.style.display = "none";
   // grab an audio context
   audioContext = new AudioContext();
 
   // Définition des contraintes de la média stream
-
+  deviceId = window.location.search.slice(8);
   navigator.mediaDevices
     .getUserMedia({
       audio: {
@@ -89,7 +88,6 @@ function startPitchDetect() {
       },
     })
     .then((stream) => {
-      console.log(stream);
       const gainNode = audioContext.createGain();
       // Réglez le gain sur 2 (double le volume)
       gainNode.gain.value = 15;
